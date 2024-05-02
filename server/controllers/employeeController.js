@@ -52,12 +52,10 @@ export const getEmployee = async (result) => {
 
 export const deleteEmployee = async (query, result) => {
     const { id } = query;
-    console.log(id);
-    const response = await db.collection("employee").deleteOne({
-        _id: new ObjectId(id)
-    });
-    console.log(response);
     try {
+        const response = await db.collection("employee").deleteOne({
+            _id: new ObjectId(id)
+        });
         result({
             body: {
                 message: "data delete successfully",
