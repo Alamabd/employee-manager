@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import db from "../db/connection.js";
 import Joi from "joi";
 
@@ -42,6 +43,32 @@ export const getEmployee = async (result) => {
         result({
             body: {
                 message: "data failed to get",
+                error: error
+            },
+            statuscode: 400
+        });
+    }
+}
+
+export const deleteEmployee = async (query, result) => {
+    const { id } = query;
+    console.log(id);
+    const response = await db.collection("employee").deleteOne({
+        _id: new ObjectId(id)
+    });
+    console.log(response);
+    try {
+        result({
+            body: {
+                message: "data delete successfully",
+                data: response,
+            },
+            statuscode: 200
+        });
+    } catch (error) {
+        result({
+            body: {
+                message: "data failed to delete",
                 error: error
             },
             statuscode: 400

@@ -1,11 +1,10 @@
 import { Router } from "express";
-import { getEmployee, insertEmployee } from "../controllers/employeeController.js";
+import { deleteEmployee, getEmployee, insertEmployee } from "../controllers/employeeController.js";
 
 const route = Router();
 
 route.post('/', (req, res) => {
-    const query = req.body;
-    insertEmployee(query, (result) => {
+    insertEmployee(req.body, result => {
         res.status(result.statuscode);
         res.json(result.body);
     });
@@ -13,6 +12,13 @@ route.post('/', (req, res) => {
 
 route.get('/', (req, res) => {
     getEmployee(result => {
+        res.status(result.statuscode);
+        res.json(result.body);
+    })
+})
+
+route.delete('/', (req, res) => {
+    deleteEmployee(req.body, result => {
         res.status(result.statuscode);
         res.json(result.body);
     })
