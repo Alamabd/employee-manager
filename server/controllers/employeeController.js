@@ -27,3 +27,24 @@ export const insertEmployee = async (query, result) => {
         });
     }
 }
+
+export const getEmployee = async (result) => {
+    try {
+        const response = await db.collection("employee").find().toArray();
+        result({
+            body: {
+                message: "data get successfully",
+                data: response,
+            },
+            statuscode: 200
+        });
+    } catch (error) {
+        result({
+            body: {
+                message: "data failed to get",
+                error: error
+            },
+            statuscode: 400
+        });
+    }
+}
