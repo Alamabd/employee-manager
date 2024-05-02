@@ -8,7 +8,7 @@ route.post('/employee', (req, res) => {
 
     insertEmployee(query, (result) => {
         res.status(result.statuscode);
-        res.send(result.body);
+        res.json(result.body);
     });
 })
 

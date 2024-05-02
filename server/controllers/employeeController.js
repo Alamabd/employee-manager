@@ -9,18 +9,20 @@ const employeeSchema = Joi.object({
 export const insertEmployee = async (query, result) => {
     const { error } = employeeSchema.validate(query);
     if(!error) {
-        try {
-            const response = await db.collection("employee").insertOne(query);
-        } catch (error) {
-            console.log(error);
-        }
+        const response = await db.collection("employee").insertOne(query);
         result({
-            body: response,
+            body: {
+                message: "data added successfully",
+                data: response,
+            },
             statuscode: 200
         });
     } else {
         result({
-            body: error,
+            body: {
+                message: "data failed to add",
+                error: error
+            },
             statuscode: 400
         });
     }
