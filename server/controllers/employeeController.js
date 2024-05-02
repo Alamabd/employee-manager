@@ -73,3 +73,32 @@ export const deleteEmployee = async (query, result) => {
         });
     }
 }
+
+export const updateEmployee = async (query, result) => {
+    const { id, name, position } = query;
+    try {
+        const response = await db.collection("employee").updateOne(
+            {
+                _id: new ObjectId(id)
+            },
+            {
+                $set: {name, position}
+            }
+        );
+        result({
+            body: {
+                message: "data update successfully",
+                data: response,
+            },
+            statuscode: 200
+        });
+    } catch (error) {
+        result({
+            body: {
+                message: "data failed to update",
+                error: error
+            },
+            statuscode: 400
+        });
+    }
+}

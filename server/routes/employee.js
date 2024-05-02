@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteEmployee, getEmployee, insertEmployee } from "../controllers/employeeController.js";
+import { deleteEmployee, getEmployee, insertEmployee, updateEmployee } from "../controllers/employeeController.js";
 
 const route = Router();
 
@@ -19,6 +19,13 @@ route.get('/', (req, res) => {
 
 route.delete('/', (req, res) => {
     deleteEmployee(req.body, result => {
+        res.status(result.statuscode);
+        res.json(result.body);
+    })
+})
+
+route.put('/', (req, res) => {
+    updateEmployee(req.body, result => {
         res.status(result.statuscode);
         res.json(result.body);
     })
