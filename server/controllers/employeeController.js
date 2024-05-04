@@ -29,9 +29,9 @@ export const insertEmployee = async (query, result) => {
     }
 }
 
-export const getEmployee = async (result) => {
+export const getEmployee = async ({id}, result) => {
     try {
-        const response = await db.collection("employee").find().toArray();
+        const response = await db.collection("employee").find(id ? {_id: new ObjectId(id)} : {}).toArray();
         result({
             body: {
                 message: "data get successfully",

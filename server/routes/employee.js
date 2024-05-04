@@ -11,7 +11,7 @@ route.post('/', (req, res) => {
 })
 
 route.get('/', (req, res) => {
-    getEmployee(result => {
+    getEmployee(req.query, result => {
         res.status(result.statuscode);
         res.json(result.body);
     })
