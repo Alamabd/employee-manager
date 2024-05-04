@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
-import Header from "../component/Header"
+import Header from "../component/header"
 
 type employeeType = {
   name: string,
@@ -30,7 +30,7 @@ const App: React.FC = () => {
     <div className="p-4 mt-4 mx-auto max-w-[560px] border rounded max-sm:mx-4">
       <Header />
       <div className="my-4 text-right">
-        <Link to={'insert'} className="p-2 border rounded">Create Employee</Link>
+        <Link to={'inputEmployee'} className="p-2 border rounded">Create Employee</Link>
       </div>
       <table className="border-collapse border table-auto text-left w-full">
         <thead>
