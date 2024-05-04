@@ -19,19 +19,35 @@ const App: React.FC = () => {
         const response = await axios.get('http://localhost:3000/employee')
         if(response.status === 200) {
           const { data } = response.data
-          setEmployee(data)
-          
+          setEmployee(data)          
         }        
       } catch (error) {
         console.log(error)
       }
     }
     getEmployee()
-  }, [])
+  }, [employee])
 
   // Update
-  function update(link: string) {
-    navigate(`/inputEmployee/${link}`)
+  function update(id: string) {
+    navigate(`/inputEmployee/${id}`)
+  }
+
+  // Remove
+  async function remove(id: string) {
+    try {
+      const response = await axios.delete('http://localhost:3000/employee', {
+        data: {
+          id
+        }
+      })
+      if(response.status === 200) {
+        const { data } = response.data
+        console.log(data);
+      }        
+    } catch (error) {
+      console.log(error)
+    } 
   }
 
   return (
@@ -59,7 +75,7 @@ const App: React.FC = () => {
                 <td className="p-4 border-t max-sm:p-2">{el.position}</td>
                 <td className="p-4 border-t flex gap-4 max-sm:p-2">
                   <button onClick={() => update(el._id)}>Edit</button>
-                  <button>Delete</button>
+                  <button onClick={() => remove(el._id)}>Delete</button>
                 </td>
               </tr>
               )
