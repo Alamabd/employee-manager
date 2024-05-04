@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
+import { Link } from "react-router-dom"
+import Header from "../component/Header"
 
 type employeeType = {
   name: string,
@@ -26,12 +28,9 @@ const App: React.FC = () => {
 
   return (
     <div className="p-4 mt-4 mx-auto max-w-[560px] border rounded max-sm:mx-4">
-      <footer className="flex items-end gap-4">
-        <img src="./employee.svg" alt="icon" width={40} />
-        <h1 className="text-3xl font-semibold">Employee Record</h1>
-      </footer>
+      <Header />
       <div className="my-4 text-right">
-        <button className="p-2 border rounded">Create Employee</button>
+        <Link to={'insert'} className="p-2 border rounded">Create Employee</Link>
       </div>
       <table className="border-collapse border table-auto text-left w-full">
         <thead>
@@ -42,7 +41,7 @@ const App: React.FC = () => {
             <th className="p-4 max-sm:p-2">Action</th>
           </tr>
         </thead>
-        <tbody className="gap-3">
+        <tbody>
           {
             employee?.map((el, idx) => {
               return(
