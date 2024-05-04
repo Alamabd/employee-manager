@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './route/app.tsx'
-import Insert from './route/insert.tsx';
+import InputEmployee from './route/inputEmployee.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './index.css'
 
@@ -11,8 +11,8 @@ const router = createBrowserRouter([
     Component: App
   },
   {
-    path: '/insert',
-    Component: Insert
+    path: '/inputEmployee/:id?',
+    Component: InputEmployee
   }
 ])
 
