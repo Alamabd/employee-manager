@@ -93,19 +93,19 @@ const InputEmployee: React.FC = () => {
     <div className="p-4 mt-4 mx-auto max-w-[560px] border rounded max-sm:mx-4">
       <Header />
       <p className="my-4">Create or update Employee</p>
-      <div className="p-4 border flex gap-4">
+      <div className="p-4 border flex gap-4 max-sm:flex-col">
         <div>
           <h2 className="text-2xl font-semibold">Employee Info</h2>
           <p>This information will be released to the public so be careful what you share.</p>
         </div>
-        <div className="w-2/3">
+        <div className="w-2/3 max-sm:w-auto">
           <form onSubmit={submit}>
             <input onChange={(event) => 
               setInp({...inp, name: event.currentTarget.value})
-              } defaultValue={employee?.name} className="p-2 mb-2 border outline-blue-600" type="text" placeholder="Name" />
+              } defaultValue={employee?.name} className="p-2 mb-2 border outline-blue-600 max-sm:w-full" type="text" placeholder="Name" />
             <input onChange={(event => {
               setInp({...inp, position: event.currentTarget.value})
-              })} defaultValue={employee?.position} className="p-2 mb-2 border outline-blue-600" type="text" placeholder="Position" />
+              })} defaultValue={employee?.position} className="p-2 mb-2 border outline-blue-600 max-sm:w-full" type="text" placeholder="Position" />
             <button className="p-2 w-full bg-blue-600 text-white font-semibold text-center" type="submit">Enter</button>
           </form>
         </div>
