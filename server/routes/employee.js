@@ -3,32 +3,9 @@ import { deleteEmployee, getEmployee, insertEmployee, updateEmployee } from "../
 
 const route = Router();
 
-route.post('/', (req, res) => {
-    insertEmployee(req.body, result => {
-        res.status(result.statuscode);
-        res.json(result.body);
-    });
-})
-
-route.get('/', (req, res) => {
-    getEmployee(req.query, result => {
-        res.status(result.statuscode);
-        res.json(result.body);
-    })
-})
-
-route.delete('/', (req, res) => {
-    deleteEmployee(req.body, result => {
-        res.status(result.statuscode);
-        res.json(result.body);
-    })
-})
-
-route.put('/', (req, res) => {
-    updateEmployee(req.body, result => {
-        res.status(result.statuscode);
-        res.json(result.body);
-    })
-})
+route.post('/', insertEmployee);
+route.get('/', getEmployee);
+route.delete('/', deleteEmployee);
+route.put('/', updateEmployee);
 
 export default route;

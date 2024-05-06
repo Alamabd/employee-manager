@@ -1,104 +1,102 @@
-import { ObjectId } from "mongodb";
-import db from "../db/connection.js";
 import Joi from "joi";
+import EmployeeModel from "../models/employeeModel.js";
 
 const employeeSchema = Joi.object({
-    name: Joi.string().required().min(4).max(16),
+    name: Joi.string().required().min(2).max(16),
     position: Joi.string().required()
 })
 
-export const insertEmployee = async (query, result) => {
-    const { error } = employeeSchema.validate(query);
-    if(!error) {
-        const response = await db.collection("employee").insertOne(query);
-        result({
-            body: {
+const UpdateEmployeeSchema = Joi.object({
+    id: Joi.string().required(),
+    name: Joi.string().required().min(2).max(16),
+    position: Joi.string().required()
+})
+
+const model = new EmployeeModel();
+
+export async function insertEmployee(req, res) {
+    const body = req.body;
+    const { error } = employeeSchema.validate(body);
+    try {
+        const response = await model.insert(body);
+        if(!error || response) {
+            res.send({
                 message: "data added successfully",
                 data: response,
-            },
-            statuscode: 200
+            });
+            res.status(200);
+        } else {
+            throw new Error();
+        }
+    } catch {
+        res.send({
+            message: "data failed to insert",
+            error: error
         });
-    } else {
-        result({
-            body: {
-                message: "data failed to add",
-                error: error
-            },
-            statuscode: 400
-        });
+        res.status(400);   
     }
 }
 
-export const getEmployee = async ({id}, result) => {
+export async function getEmployee(req, res) {
+    const { id } = req.query;
     try {
-        const response = await db.collection("employee").find(id ? {_id: new ObjectId(id)} : {}).toArray();
-        result({
-            body: {
-                message: "data get successfully",
+        const response = await model.find(id);
+        if(response) {
+            res.send({
+                message: "get data successfully",
                 data: response,
-            },
-            statuscode: 200
+            });
+            res.status(200);
+        } else {
+            throw new Error();
+        }
+    } catch {
+        res.send({
+            message: "failed to get data",
         });
+        res.status(400);
+    }   
+}
+
+export async function deleteEmployee(req, res) {
+    const { id } = req.body;
+    try {
+        const response = await model.delete(id);
+        if(response) {
+            res.send({
+                message: "delete data successfully",
+                data: response,
+            });
+            res.status(200);
+        } else {
+            throw new Error();
+        }
     } catch (error) {
-        result({
-            body: {
-                message: "data failed to get",
-                error: error
-            },
-            statuscode: 400
+        res.send({
+            message: "failed to delete data",
         });
+        res.status(400);
     }
 }
 
-export const deleteEmployee = async (query, result) => {
-    const { id } = query;
+export async function updateEmployee(req, res) {
+    const body = req.body;
+    const { error } = UpdateEmployeeSchema.validate(body);
     try {
-        const response = await db.collection("employee").deleteOne({
-            _id: new ObjectId(id)
-        });
-        result({
-            body: {
-                message: "data delete successfully",
+        const response = await model.update(body);
+        if(!error || response) {
+            res.send({
+                message: "update data successfully",
                 data: response,
-            },
-            statuscode: 200
-        });
+            });
+            res.status(200);
+        } else {
+            throw new Error();
+        }
     } catch (error) {
-        result({
-            body: {
-                message: "data failed to delete",
-                error: error
-            },
-            statuscode: 400
+        res.send({
+            message: "failed to update data",
         });
-    }
-}
-
-export const updateEmployee = async (query, result) => {
-    const { id, name, position } = query;
-    try {
-        const response = await db.collection("employee").updateOne(
-            {
-                _id: new ObjectId(id)
-            },
-            {
-                $set: {name, position}
-            }
-        );
-        result({
-            body: {
-                message: "data update successfully",
-                data: response,
-            },
-            statuscode: 200
-        });
-    } catch (error) {
-        result({
-            body: {
-                message: "data failed to update",
-                error: error
-            },
-            statuscode: 400
-        });
+        res.status(400);
     }
 }
